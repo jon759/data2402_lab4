@@ -8,10 +8,21 @@ def load_teams(filename: str)-> dict:
         f.readline()
         for line in f:
             line = line.strip()
-            driver_name, team_name, points = line.split(',')
+            fields = line.split(',')
 
+            # check values match number of fields
+            if len(fields) != 3:
+                raise ValueError(f'Row: {line}')
+
+            driver_name, team_name, points = fields
+
+            # check if string for points are digits
+            if not points.isdigits():
+                raise ValueError(f'Points must be an integer: {line}')
+
+            # check for duplicate teams
             if team_name not in teams:
-            # create team object
+                # create team object
                 teams[team_name] = Team(team_name)
 
             # create driver object
@@ -23,7 +34,15 @@ def load_teams(filename: str)-> dict:
     return teams
 
 def main()-> None:
-    teams = load_teams('f1_points.csv')
+    try:
+        teams = load_teams('f1_points.csv')
+    except FileNotFoundError:
+        print('Missing File: could not find f1_points.csv')
+        return
+    except ValueError as e:
+        print(f'Invalid Data: {e}')
+        return
+
     # print(len(teams))
     sorted_teams = sorted(teams.values())
     # print(sorted_teams)
