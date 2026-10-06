@@ -31,6 +31,9 @@ def load_teams(filename: str)-> dict:
             # add driver to team
             teams[team_name].add_driver(driver)
 
+    if not teams:
+        raise ValueError('File contains no data')
+    
     return teams
 
 def main()-> None:
