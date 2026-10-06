@@ -17,7 +17,7 @@ def load_teams(filename: str)-> dict:
             driver_name, team_name, points = fields
 
             # check if string for points are digits
-            if not points.isdigits():
+            if not points.isdigit():
                 raise ValueError(f'Points must be an integer: {line}')
 
             # check for duplicate teams
